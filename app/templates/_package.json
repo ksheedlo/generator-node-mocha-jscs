@@ -1,27 +1,40 @@
 {
   "name": "<%= slugname %>",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "<%= props.description %>",
-<% if (props.homepage) { %>  "homepage": "<%= props.homepage %>",<% } %>
+<% if (props.homepage) { %>
+  "homepage": "<%= props.homepage %>",
+<% } %>
   "author": {
+  <% if (props.authorUrl) { %>
+    "url": "<%= props.authorUrl %>",
+  <% } %>
     "name": "<%= props.authorName %>",
-    "email": "<%= props.authorEmail %>"<% if (props.authorUrl) { %>,
-    "url": "<%= props.authorUrl %>"<% } %>
+    "email": "<%= props.authorEmail %>"
   },
   "repository": "<%= repoUrl %>",
   "license": "<%= props.license %>",
   "files": [
-    "index.js"<% if (props.cli) { %>,
-    "cli.js"<% } %>
+  <% if (props.cli) { %>
+    "cli.js",
+  <% } %>
+    "index.js"
   ],
   "keywords": [
-    "<%= slugname %>"<% for (var i = 0; i < keywords.length; i++) { %>,
-    "<%= keywords[i] %>"<% } %>
+  <% for (var i = 0; i < keywords.length; i++) { %>
+    "<%= keywords[i] %>",
+  <% } %>
+    "<%= slugname %>"
   ],
-  "dependencies": {<% if (props.cli) { %>
+  "dependencies": {
+  <% if (props.cli) { %>
     "meow": "^2.0.0"
-  <% } %>},
+  <% } %>
+  },
   "devDependencies": {
+  <% if (props.browser) { %>
+    "browserify": "^7.0.0",
+  <% } %>
     "grunt-cli": "^0.1.13",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-nodeunit": "^0.4.1",
@@ -29,14 +42,20 @@
     "load-grunt-tasks": "^1.0.0",
     "time-grunt": "^1.0.0",
     "grunt-mocha-cli": "^1.11.0",
-    "jshint-stylish": "^1.0.0"<% if (props.browser) { %>,
-    "browserify": "^7.0.0"<% } %>
+    "jshint-stylish": "^1.0.0"
   },
-  "scripts": {
-    "test": "grunt"<% if (props.browser) { %>,
-    "browser": "browserify index.js > browser.js"<% } %>
-  }<% if (props.cli) { %>,
+<% if (props.cli) { %>
   "bin": {
-    "<%= slugname %>": "cli.js"
-  }<% } %>
+    "<%= slugname %>": "bin/cli.js"
+  },
+<% } %>
+  "scripts": {
+  <% if (props.browser) { %>
+    "browser": "browserify index.js > browser.js",
+  <% } %>
+    "prelint": "jscs lib test",
+    "lint": "jshint lib test",
+    "pretest": "npm run lint",
+    "test": "mocha"
+  }
 }

@@ -13,7 +13,7 @@ describe('node generator', function () {
         return;
       }
 
-      this.app = helpers.createGenerator('node:app', [
+      this.app = helpers.createGenerator('node-mocha-jscs:app', [
         '../../app'
       ]);
       this.app.options['skip-install'] = true;
